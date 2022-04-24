@@ -3,12 +3,10 @@ const uniqueValidator = require('mongoose-unique-validator');
 
 const OrganisationSchema = new Schema({
     denomination: {
-        type: String,
-        required: true
+        type: String
     },
 	formeJuridique: {
-        type: String,
-        required: true
+        type: String
     },
 	smig: {
         type: Number
@@ -18,7 +16,7 @@ const OrganisationSchema = new Schema({
     },
 	state:{  
         type: String,
-        defualt: 'TRIAL' //- [trial, paid, ....]
+        default: 'TRIAL' //- [trial, paid, ....]
     },
 	duration: {
         type: Number,
@@ -43,28 +41,25 @@ const UserSchema = new Schema({
         required: true
     },
     nom: {
-        type: String,
-        required: true
+        type: String
     },
     postnom: {
-        type: String,
-        required: true
+        type: String
     },
     prenom: {
-        type: String,
-        required: true
+        type: String
+    },
+    gender: {
+        type: String
     },
     adresse: {
-        type: String,
-        required: true
+        type: String
     },
     profession: {
-        type: String,
-        required: true
+        type: String
     },
     anne_experience:{
-        type: String,
-        required: true
+        type: String
     },
     cv:{
         type: String,
@@ -91,8 +86,7 @@ const UserSchema = new Schema({
     },
     organisation: OrganisationSchema,
     ville:{
-        type: String,
-        required: true
+        type: String
     },
     createdAt:{
         type: Date,

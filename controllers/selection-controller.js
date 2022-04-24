@@ -3,14 +3,12 @@ const Selection = require('../models/selection-model');
 exports.create = async (req, res) => {
     try {
         const {
-            offreId,
-            candidatId,
-            date_limite,
-            email,
-            heure_fin,
-            interview_audio,
-            interview_video,
-            test
+            applicationId,
+            selectionDate,
+            interviewTime,
+            interviewLink,
+            message,
+            progress
         } = req.body;
 
         const newSelection = new Selection({ ...req.body} );
@@ -43,17 +41,7 @@ exports.getOne = async (req, res) => {
 
 exports.update = async (req, res) => {
     try {
-        const {
-            offreId,
-            candidatId,
-            date_limite,
-            email,
-            heure_fin,
-            interview_audio,
-            interview_video,
-            test
-        } = req.body;
-
+        
         const updateSelection = await Selection.findOneAndUpdate({ _id: req.params.id }, { ... req.body }, { new: true});
         if(!updateSelection) return res.status(400).json("Erreur lors de la mise à jour de la selection!");
 

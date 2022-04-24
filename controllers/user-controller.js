@@ -2,18 +2,48 @@ const User =  require('../models/user-model');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 
-exports.signUp = async(req,  res, next) => {
-
+exports.userUpdate = async(req, res) => {
     try {
+        const { 
+            nom, 
+            postnom, 
+            prenom, 
+            gender,
+            adresse,
+            profession,
+            anne_experience,
+            cv,
+            resume,
+            dateOfBirth,
+            placeOfBirth,
+            nationality,
+        } = req.body;
 
+        const updatedUser = await User.findOneAndUpdate(
+            {_id: req.params.id}, 
+            { ...req.body}, 
+            {new: true}
+        );
+        return res.status(200).json({
+            message: "User data updated successfully", updatedUser,
+            success: true
+        });       
+        
+    } catch (error) {
+        return res.status(400).json({
+            message: error.message,
+            success: false
+        });
+    } 
+}
+
+exports.signUp = async(req,  res) => {
+    try {
         const { 
             email, 
             password, 
             mobile, 
             role, 
-            organisation, 
-            ville,
-            adresse
         } = req.body;
         
         // crypt the password
@@ -24,10 +54,7 @@ exports.signUp = async(req,  res, next) => {
                     email,
                     password: hash,
                     mobile,
-                    role,
-                    organisation,
-                    ville,
-                    adresse
+                    role
                 });
                 
                 const saveUser = await newUser.save();
@@ -55,7 +82,7 @@ exports.signUp = async(req,  res, next) => {
     }    
 }
 
-exports.login = async (req, res, next) => {
+exports.login = async (req, res) => {
 
     try {
         // body
@@ -102,4 +129,33 @@ exports.login = async (req, res, next) => {
         });
     }
 
+}
+
+
+exports.organisationUpdate = async(req, res) => {
+
+    try {
+        const { 
+            denomination, 
+            formeJuridique, 
+            smig, 
+            taux
+        } = req.body;
+
+        const updatedOrg = await User.findOneAndUpdate(
+            {_id: req.params.id}, 
+            { ...req.body}, 
+            {new: true}
+        );
+        return res.status(200).json({
+            message: "Organisation data updated successfully", updatedOrg,
+            success: true
+        });       
+        
+    } catch (error) {
+        return res.status(400).json({
+            message: error.message,
+            success: false
+        });
+    }
 }

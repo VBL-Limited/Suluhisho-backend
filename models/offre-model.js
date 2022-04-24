@@ -15,12 +15,10 @@ const OffreSchema = new Schema({
         required: true
     },
     experience: {
-        type: String,
-        required: true
+        type: String
     },
     responsabilities: {
-        type: String,
-        required: true
+        type: String
     },
     expirationDate: {
         type: Date,
@@ -44,7 +42,7 @@ const OffreSchema = new Schema({
         type: String
     },
     disabled: {
-        type: boolean,
+        type: Boolean,
         default: false
     }
 });
