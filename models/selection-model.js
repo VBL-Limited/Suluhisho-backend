@@ -1,37 +1,26 @@
 const { model, Schema } = require('mongoose');
 
 const SelectionSchema = new Schema({
-    offreId: {
+    applicationId: {
         type: Schema.Types.ObjectId,
-        ref: 'Offre'
+        ref: 'Application'
     },
-    candidatId: {
-        type: Schema.Types.ObjectId,
-        ref: 'Candidat'
-    },
-    date_limite: {
+    selectionDate: {
         type: Date,
-        required: true
+        default: Date.now()
     },
-    email: {
+    interviewTime: {
         type: String,
-        required: true
     },
-    heure_fin: {
+    interviewLink: {
         type: String,
-        required: true
     },
-    interview_audio: {
+    message: {
         type: String,
-        required: true
     },
-    interview_video: {
+    progress: {
         type: String,
-        required: true
-    },
-    test: {
-        type: String,
-        required: true
+        default: 'NONE' // test, selected, interview, declined
     }
 });
 

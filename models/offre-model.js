@@ -1,29 +1,36 @@
 const { model, Schema } = require('mongoose');
 
 const OffreSchema = new Schema({
-    nom_organisation: {
+    
+    title: {
         type: String,
         required: true
     },
-    poste: {
+    description: {
         type: String,
         required: true
     },
-    lieu_affectation: {
+    requirements: {
         type: String,
         required: true
     },
-    date_publication: {
+    experience: {
+        type: String,
+        required: true
+    },
+    responsabilities: {
+        type: String,
+        required: true
+    },
+    expirationDate: {
         type: Date,
-        default: Date.now()
     },
-    date_limite: {
+    postedDate: {
         type: Date,
         required: true
     },
-    details_offre: {
-        type: String,
-        required: true
+    location: {
+        type: String
     },
     email: {
         type: String,
@@ -35,6 +42,10 @@ const OffreSchema = new Schema({
     },
     tag: {
         type: String
+    },
+    disabled: {
+        type: boolean,
+        default: false
     }
 });
 
