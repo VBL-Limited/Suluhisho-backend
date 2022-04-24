@@ -6,9 +6,15 @@ const OrganisationSchema = new Schema({
         type: String,
         required: true
     },
-	forme_juridique: {
+	formeJuridique: {
         type: String,
         required: true
+    },
+	smig: {
+        type: Number
+    },
+	taux: {
+        type: Number
     },
 	state:{  
         type: String,
@@ -16,7 +22,7 @@ const OrganisationSchema = new Schema({
     },
 	duration: {
         type: Number,
-        default: 0 // in days
+        default: 14 // in days
     }
 });
 
@@ -36,16 +42,55 @@ const UserSchema = new Schema({
         unique: true,
         required: true
     },
-    role: {
-        type: String,
-        defaut: 'AGENT'
-    },    
-    organisation: OrganisationSchema,
-    ville:{
+    nom: {
         type: String,
         required: true
     },
-    adresse:{
+    postnom: {
+        type: String,
+        required: true
+    },
+    prenom: {
+        type: String,
+        required: true
+    },
+    adresse: {
+        type: String,
+        required: true
+    },
+    profession: {
+        type: String,
+        required: true
+    },
+    anne_experience:{
+        type: String,
+        required: true
+    },
+    cv:{
+        type: String,
+    },
+    resume:{
+        type: String,
+    },
+    dateOfBirth:{
+        type: Date
+    },
+    placeOfBirth:{
+        type: String
+    },
+    nationality:{
+        type: String
+    }
+    ,
+    role: {
+        type: String,
+        default: 'APPLICANT' // employee or applicant or agent
+    },
+    position:{
+        type: String
+    },
+    organisation: OrganisationSchema,
+    ville:{
         type: String,
         required: true
     },
