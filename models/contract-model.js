@@ -15,19 +15,19 @@ const ContractSchema = new Schema({
         type: Date,
     },
     receivedAttestation: {
-        type: boolean,
+        type: Boolean,
         default: false
     },
     receivedOnem: {
-        type: boolean,
+        type: Boolean,
         default: false
     },
     receivedCV: {
-        type: boolean,
+        type: Boolean,
         default: false
     },
     receivedDiploma: {
-        type: boolean,
+        type: Boolean,
         default: false
     },
     salaryBase: {
@@ -49,7 +49,7 @@ const ContractSchema = new Schema({
         type: Number,
     },
     canceled: { // status of the contract
-        type: boolean,
+        type: Boolean,
         default: false
     }
 });

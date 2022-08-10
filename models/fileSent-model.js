@@ -16,4 +16,4 @@ const FileSentSchema = new Schema({
     }
 });
 
-module.exports = model('file-sent', FileSentSchema);
+module.exports = model('FileSent', FileSentSchema);

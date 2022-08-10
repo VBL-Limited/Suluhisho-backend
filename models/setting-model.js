@@ -1,6 +1,6 @@
 const { model, Schema } = require("mongoose");
 
-const OrganisationSchema = new Schema({
+const SettingSchema = new Schema({
     denomination: {
         type: String,
     },
@@ -23,4 +23,4 @@ const OrganisationSchema = new Schema({
     },
 });
 
-module.exports = model("Organisation", OrganisationSchema);
+module.exports = model("Setting", SettingSchema);

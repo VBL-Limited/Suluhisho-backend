@@ -2,12 +2,7 @@ const Application = require('../models/application-model');
 
 exports.apply = async (req, res) => {
     try {
-        const {
-            offreId,
-            userId
-        } = req.body;
-
-        const newApplication = new Application({ ...req.body} );
+        const newApplication = new Application({ ...req.body });
         const saveApplication = await newApplication.save();
         return res.status(201).json(saveApplication);
     } catch (error) {
@@ -15,7 +10,7 @@ exports.apply = async (req, res) => {
     }
 };
 
-exports.getAllApplications = async (req, res) => {
+exports.findAll = async (req, res) => {
     try {
         const allApplications = await Application.find();
         return res.status(200).json(allApplications);
@@ -24,10 +19,10 @@ exports.getAllApplications = async (req, res) => {
     }
 };
 
-exports.getApplication = async (req, res) => {
+exports.findOne = async (req, res) => {
     try {
         const application = await Application.findOne({ _id: req.params.id });
-        if(!application) return res.status(404).json("Cette application n'existe pas !");
+        if (!application) return res.status(404).json("Cette application n'existe pas !");
 
         return res.status(200).json(application);
     } catch (error) {
@@ -37,13 +32,8 @@ exports.getApplication = async (req, res) => {
 
 exports.update = async (req, res) => {
     try {
-        const {
-            offreId,
-            userId
-        } = req.body;
-
-        const updateApplication = await Application.findOneAndUpdate({ _id: req.params.id }, { ... req.body }, { new: true});
-        if(!updateApply) return res.status(400).json("Erreur lors de la mise à jour de l'application!");
+        const updateApplication = await Application.findOneAndUpdate({ _id: req.params.id }, { ...req.body }, { new: true });
+        if (!updateApply) return res.status(400).json("Erreur lors de la mise à jour de l'application!");
 
         return res.status(201).json(updateApplication);
     } catch (error) {
@@ -53,12 +43,12 @@ exports.update = async (req, res) => {
 
 
 exports.remove = async (req, res) => {
-    try {        
+    try {
 
-        const removeApplication = await Apply.findOneAndRemove({ _id: req.params.id });
-        if(!removeApplication) return res.status(404).json("Cette application n'existe pas!");
+        const deleteApplication = await Apply.findOneAndRemove({ _id: req.params.id });
+        if (!deleteApplication) return res.status(404).json("Cette application n'existe pas!");
 
-        return res.status(200).json(removeApplication);
+        return res.status(200).json(deleteApplication);
     } catch (error) {
         return res.status(400).json({ error: error.message });
     }
