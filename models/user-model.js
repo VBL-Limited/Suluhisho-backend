@@ -1,99 +1,85 @@
-const { model, Schema } = require('mongoose');
-const uniqueValidator = require('mongoose-unique-validator');
-
-const OrganisationSchema = new Schema({
-    denomination: {
-        type: String
-    },
-	formeJuridique: {
-        type: String
-    },
-	smig: {
-        type: Number
-    },
-	taux: {
-        type: Number
-    },
-	state:{  
-        type: String,
-        default: 'TRIAL' //- [trial, paid, ....]
-    },
-	duration: {
-        type: Number,
-        default: 14 // in days
-    }
-});
+const { model, Schema } = require("mongoose");
+const uniqueValidator = require("mongoose-unique-validator");
 
 const UserSchema = new Schema({
-    
-    email:{
+    email: {
         type: String,
         unique: true,
-        required: true
+        required: true,
     },
-    password:{
+    password: {
         type: String,
-        required: true
+        required: true,
     },
-    mobile:{
+    mobile: {
         type: String,
         unique: true,
-        required: true
+        required: true,
     },
     nom: {
-        type: String
+        type: String,
     },
     postnom: {
-        type: String
+        type: String,
     },
     prenom: {
-        type: String
+        type: String,
     },
     gender: {
-        type: String
+        type: String,
     },
     adresse: {
-        type: String
+        type: String,
+    },
+    ville: {
+        type: String,
     },
     profession: {
-        type: String
-    },
-    anne_experience:{
-        type: String
-    },
-    cv:{
         type: String,
     },
-    resume:{
+    anne_experience: {
         type: String,
     },
-    dateOfBirth:{
-        type: Date
+    cv: {
+        type: String,
     },
-    placeOfBirth:{
-        type: String
+    resume: {
+        type: String,
     },
-    nationality:{
-        type: String
-    }
-    ,
+    certificat: {
+        type: String,
+    },
+    diploma: {
+        type: String,
+    },
+    attestation: {
+        type: String,
+    },
+    onemCard: {
+        type: String,
+    },
+    dateOfBirth: {
+        type: Date,
+    },
+    placeOfBirth: {
+        type: String,
+    },
+    nationality: {
+        type: String,
+    },
     role: {
         type: String,
-        default: 'APPLICANT' // employee or applicant or agent
+        default: "APPLICANT", // employee or applicant or agent
     },
-    position:{
-        type: String
+    position: {
+        type: String,
     },
-    organisation: OrganisationSchema,
-    ville:{
-        type: String
-    },
-    createdAt:{
+    createdAt: {
         type: Date,
-        default: Date.now()
-    }
+        default: Date.now(),
+    },
 });
 
 UserSchema.plugin(uniqueValidator);
 
-module.exports = model('User', UserSchema);
+module.exports = model("User", UserSchema);

@@ -9,6 +9,19 @@ const ApplySchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'User'
     },
+    status: {
+        type: String,
+        default: 'NONE' // // test, selected, interview, declined
+    },
+    interviewTime: {
+        type: String,
+    },
+    interviewLink: {
+        type: String,
+    },
+    response: {
+        type: String
+    },
     createdAt: {
         type: Date,
         default: Date.now()

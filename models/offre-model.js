@@ -1,7 +1,7 @@
 const { model, Schema } = require('mongoose');
 
 const OffreSchema = new Schema({
-    
+
     title: {
         type: String,
         required: true
@@ -39,7 +39,7 @@ const OffreSchema = new Schema({
         required: true
     },
     tag: {
-        type: String
+        type: [String]
     },
     disabled: {
         type: Boolean,

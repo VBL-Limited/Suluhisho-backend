@@ -14,13 +14,41 @@ const ContractSchema = new Schema({
     endingDate: {
         type: Date,
     },
-    salary: {
+    receivedAttestation: {
+        type: boolean,
+        default: false
+    },
+    receivedOnem: {
+        type: boolean,
+        default: false
+    },
+    receivedCV: {
+        type: boolean,
+        default: false
+    },
+    receivedDiploma: {
+        type: boolean,
+        default: false
+    },
+    salaryBase: {
         type: Number,
     },
-    contractDocument: {
-        type: String
+    salaryBase: {
+        type: Number,
     },
-    canceled: {
+    salaryIPR: {
+        type: Number,
+    },
+    salaryTransport: {
+        type: Number,
+    },
+    salaryAllocationFamiliale: {
+        type: Number,
+    },
+    salaryAmount: {
+        type: Number,
+    },
+    canceled: { // status of the contract
         type: boolean,
         default: false
     }
