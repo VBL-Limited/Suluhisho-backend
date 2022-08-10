@@ -1,14 +1,14 @@
 const express = require('express');
 const router = express.Router();
 
-const offreCtrl = require('../controllers/offre-controller');
+const { create, findAll, findOne, findByTag, findByTitle, update, remove } = require('../controllers/offre-controller');
 
-router.post('/', offreCtrl.create);
-router.get('/', offreCtrl.getAll);
-router.get('/:id', offreCtrl.getOne);
-router.get('/:tag', offreCtrl.getByTag);
-router.get('/:title', offreCtrl.getByTitle);
-router.put('/:id', offreCtrl.update);
-router.delete('/:id', offreCtrl.remove);
+router.post('/', create);
+router.get('/', findAll);
+router.get('/:id', findOne);
+router.get('/:tag', findByTag);
+router.get('/:title', findByTitle);
+router.put('/:id', update);
+router.delete('/:id', remove);
 
 module.exports = router;
