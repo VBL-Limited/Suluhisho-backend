@@ -32,21 +32,27 @@ const ContractSchema = new Schema({
     },
     salaryBase: {
         type: Number,
+        default: 0
     },
     salaryBase: {
         type: Number,
+        default: 0
     },
     salaryIPR: {
         type: Number,
+        default: 0
     },
     salaryTransport: {
         type: Number,
+        default: 0
     },
     salaryAllocationFamiliale: {
         type: Number,
+        default: 0
     },
     salaryAmount: {
         type: Number,
+        default: 0
     },
     canceled: { // status of the contract
         type: Boolean,

@@ -3,8 +3,8 @@ const Setting = require('../models/setting-model');
 exports.create = async (req, res) => {
     try {
         const newSetting = new Setting({ ...req.body });
-        const saveSetting = await newSetting.save();
-        return res.status(201).json(saveSetting);
+        const savedSetting = await newSetting.save();
+        return res.status(201).json(savedSetting);
     } catch (error) {
         return res.status(400).json({ error });
     }

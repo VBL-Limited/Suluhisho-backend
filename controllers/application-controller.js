@@ -33,7 +33,7 @@ exports.findOne = async (req, res) => {
 exports.update = async (req, res) => {
     try {
         const updateApplication = await Application.findOneAndUpdate({ _id: req.params.id }, { ...req.body }, { new: true });
-        if (!updateApply) return res.status(400).json("Erreur lors de la mise à jour de l'application!");
+        if (!updateApplication) return res.status(400).json("Erreur lors de la mise à jour de l'application!");
 
         return res.status(201).json(updateApplication);
     } catch (error) {
@@ -45,7 +45,7 @@ exports.update = async (req, res) => {
 exports.remove = async (req, res) => {
     try {
 
-        const deleteApplication = await Apply.findOneAndRemove({ _id: req.params.id });
+        const deleteApplication = await Application.findOneAndRemove({ _id: req.params.id });
         if (!deleteApplication) return res.status(404).json("Cette application n'existe pas!");
 
         return res.status(200).json(deleteApplication);

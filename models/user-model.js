@@ -17,7 +17,7 @@ const UserSchema = new Schema({
         required: true,
     },
     nom: {
-        type: String,
+        type: String
     },
     postnom: {
         type: String,
