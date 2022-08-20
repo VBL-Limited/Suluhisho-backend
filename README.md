@@ -44,8 +44,6 @@ The base prerequisites to create a project are:
 - Twitter: [@brackley_cassinga](https://twitter.com/BrackleyCasinga)
 - Linkedin: [Brackley Cassinga](https://www.linkedin.com/in/brackley-casinga-00b517120/)
 
-## Acknowledgments
-
 ## 📝 License
 
 This project is MIT licensed.
