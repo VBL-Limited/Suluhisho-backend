@@ -32,13 +32,13 @@ The base prerequisites to create a project are:
 
 ## Authors
 
-👤 **Venceslas Burongu**
+👤 **Venceslas Burongu** | Backend
 
 - Github: @bvenceslas [@bvenceslas](https://github.com/bvenceslas)
 - Twitter: [@bvenceslas](https://twitter.com/bvenceslas)
 - Linkedin: [Venceslas Burongu](https://www.linkedin.com/in/venceslas-burongu/)
 
-👤 **Brackley Cassinga**
+👤 **Brackley Cassinga** | Frontend
 
 - Github: [@brackleycassinga](https://github.com/Brackleycassinga)
 - Twitter: [@brackley_cassinga](https://twitter.com/BrackleyCasinga)
