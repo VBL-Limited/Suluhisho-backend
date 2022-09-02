@@ -25,7 +25,7 @@ app.use('/api/test', async (req, res) => {
 const port = process.env.PORT || 5000;
 
 app.listen(port, () => {
-    console.log(`Connected to port ${port}`);
+    console.log(`App running on port ${port}`);
     // connect to the db
     connect(process.env.DB_PATH, (err, db) => {
         if (err) throw err;
