@@ -7,7 +7,9 @@
   "scripts": {
     "start": "nodemon app.js"
   },
-  "devDependencies": {
+  "dependencies": {
+    "cors": "^2.8.5",
+    "jsonwebtoken": "^8.5.1",
     "bcryptjs": "^2.4.3",
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
@@ -15,9 +17,5 @@
     "mongoose-unique-validator": "^3.0.0",
     "morgan": "^1.10.0",
     "nodemon": "^2.0.15"
-  },
-  "dependencies": {
-    "cors": "^2.8.5",
-    "jsonwebtoken": "^8.5.1"
   }
 }
