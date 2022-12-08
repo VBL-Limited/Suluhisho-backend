@@ -1,9 +1,10 @@
 const express = require('express');
 const router = express.Router();
+const { upload } = require('../helpers/helper');
 
 const { create, findAll, findOne, update, remove } = require('../controllers/fileSent-controller');
 
-router.post('/', create);
+router.post('/', upload.single('fichier'), create);
 router.get('/', findAll);
 router.get('/:id', findOne);
 router.put('/:id', update);
