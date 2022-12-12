@@ -1,6 +1,9 @@
 const express = require('express');
 const router = express.Router();
 const { upload } = require('../helpers/helper');
+// const multer = require('multer');
+
+// const upload = multer({ dest: 'uploads' });
 
 const { create, findAll, findOne, update, remove } = require('../controllers/fileSent-controller');
 

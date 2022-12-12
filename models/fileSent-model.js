@@ -2,7 +2,7 @@ const { model, Schema } = require('mongoose');
 
 const FileSentSchema = new Schema({
 
-    file: {
+    fichier: {
         type: String,
         required: true
     },
