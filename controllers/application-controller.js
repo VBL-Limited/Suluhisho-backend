@@ -45,6 +45,16 @@ exports.findAll = async (req, res) => {
     }
 };
 
+exports.findAllByUserId = async (req, res) => {
+    try {
+        const allApplications = await Application.find().where({ userId: req.params.id });
+        return res.status(200).json(allApplications);
+    } catch (error) {
+        return res.status(400).json({ error: error.message });
+    }
+};
+
+
 exports.findOne = async (req, res) => {
     try {
         const application = await Application.findOne({ _id: req.params.id });
