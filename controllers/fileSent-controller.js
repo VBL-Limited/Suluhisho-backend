@@ -2,11 +2,16 @@ const FileSent = require('../models/fileSent-model');
 
 exports.create = async (req, res) => {
     try {
-        const newFileSent = new FileSent({ ...req.body });
+
+        const newFileSent = new FileSent({
+            ...req.body,
+            fichier: req.file.path
+        });
+
         const saveFileSent = await newFileSent.save();
         return res.status(201).json(saveFileSent);
     } catch (error) {
-        return res.status(400).json({ error });
+        return res.status(400).json({ "error": error.message });
     }
 };
 

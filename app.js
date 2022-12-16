@@ -9,7 +9,9 @@ app.use(morgan('dev'));
 // routes
 app.use(express.json());
 app.use('/api/auth', require('./routes/user-routes'));
+app.use('/api/user', require('./routes/user-routes'));
 app.use('/api/offres', require('./routes/offre-routes'));
+app.use('/api/notifications', require('./routes/notification-routes'));
 app.use('/api/applications', require('./routes/application-routes'));
 app.use('/api/conges', require('./routes/conge-routes'));
 app.use('/api/contract', require('./routes/contract-routes'));

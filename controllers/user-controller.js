@@ -68,6 +68,26 @@ exports.signUp = async (req, res) => {
     }
 }
 
+exports.getUserDetails = async (req, res) => {
+    try {
+        const user = await User.findOne({ id: req.params.id }).select("-password");
+
+        if (!user) {
+            return res.status(404).json({
+                message: 'User not found',
+                success: false
+            });
+        }
+        return res.status(200).json({ user });
+
+    } catch (error) {
+        return res.status(400).json({
+            message: error.message,
+            success: false
+        });
+    }
+}
+
 exports.login = async (req, res) => {
 
     try {
@@ -97,6 +117,7 @@ exports.login = async (req, res) => {
                 // password is correct, return created token
                 return res.status(200).json({
                     userId: user._id,
+                    role: user.role,
                     token: jwt.sign(
                         { userId: user._id },
                         'RANDOM_TOKEN_SECRET',

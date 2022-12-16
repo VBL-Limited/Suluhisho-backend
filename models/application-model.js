@@ -11,7 +11,7 @@ const ApplySchema = new Schema({
     },
     status: {
         type: String,
-        default: 'NONE' // // test, selected, interview, declined
+        default: 'APPLIED' // applied, test, selected, interview, declined
     },
     interviewTime: {
         type: String,
