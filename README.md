@@ -1,34 +1,33 @@
-# suluhisho-backend
+# Suluhisho HR
 
-Backend App for Suluhisho
+Welcome to Suluhisho HR, the human resources application for VBL Limited. With this app, you can manage your company's employees, job postings, and payroll easily and efficiently.
 
-This project is a server side one.
-It's made in Nodejs and express.
+# Features
 
-## Built With
+Login: Securely log in to the app using your VBL Limited credentials.
 
-_Mern Stack_
+Sign up: Sign up for a new account if you don't already have one.
 
-- MongoDB:[@MongoDB Atlas](https://docs.atlas.mongodb.com/getting-started/)
-- Express: [@Express js](https://toolbelt.heroku.com/)
-- Node.js: [@Node.js](https://nodejs.org/en/)
+Add job post: Create and publish new job postings for your company.
 
-## Prerequisites
+Update job: Edit or delete existing job postings as needed.
 
-The base prerequisites to create a project are:
+Notification: Stay up to date with notifications about new job applications and other important updates.
 
-1. Nodejs `npm` or `yarn`
-2. MongoDB database in the cloud
+User management: Add, edit, and delete employee accounts as needed.
 
-## How to run
+Payroll: Easily manage payroll for your employees using this app.
 
-- Step 1: Clone this repository. Just use: `git clone https://github.com/VBL-Limited/Suluhisho-backend.git`.
+# Getting Started
 
-- Step 2: Open the project folder where the repository was downloaded. Once you are in that folder, open a terminal and make sure that it will be opened in that specific folder.
+To get started with Suluhisho HR, you'll need to have Node.js and npm installed on your machine. Then, follow these steps:
 
-- Step 3: Run `npm install`. This will install the required dependencies for the server project.
-
-- Run the server by typing: `npm start` to see the magic!
+Clone this repository to your local machine using git clone https://github.com/[your-username]/suluhisho-hr.git.
+Navigate to the cloned repository and install the necessary dependencies using npm install.
+Start the app by running npm start.
+Open your web browser and navigate to http://localhost:3000 to use the app.
+Support
+If you have any questions or encounter any issues while using Suluhisho HR, don't hesitate to reach out to our support team at support@vbl-limited.com. We're here to help!
 
 ## Authors
 
