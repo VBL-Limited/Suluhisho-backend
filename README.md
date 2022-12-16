@@ -1,6 +1,6 @@
-# Suluhisho HR
+# Suluhisho HR BACKEND
 
-Welcome to Suluhisho HR, the human resources application for VBL Limited. With this app, you can manage your company's employees, job postings, and payroll easily and efficiently.
+Welcome to Suluhisho HR BACKEND , the human resources application for VBL Limited. With this app, you can manage your company's employees, job postings, and payroll easily and efficiently.
 
 # Features
 
