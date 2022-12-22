@@ -21,14 +21,21 @@ exports.apply = async (req, res) => {
             offreId: offreId
         })
 
-        if (existingApplication.status === 'APPLIED') {
+        if (existingApplication?.status === 'APPLIED') {
             return res.status(400).json({ error: "You have already applied for this Job" });
         }
 
+        // if offre exists
+        const existingOffre = await Offre.findOne({_id: offreId}).exec()
 
-
-        // if ()
-        const newApplication = new Application({ ...req.body });
+        if(!existingOffre){
+            return res.status(404).json({ error: "This Job post doesn't exist" });
+        }
+        
+        const newApplication = new Application({ 
+            ...req.body , 
+            offreId:existingOffre 
+        });
         const saveApplication = await newApplication.save();
         return res.status(201).json(saveApplication);
     } catch (error) {
@@ -47,7 +54,9 @@ exports.findAll = async (req, res) => {
 
 exports.findAllByUserId = async (req, res) => {
     try {
-        const allApplications = await Application.find().where({ userId: req.params.id });
+        const allApplications = await Application.find()
+            .where({ userId: req.params.id })
+            .populate("offreId");
         return res.status(200).json(allApplications);
     } catch (error) {
         return res.status(400).json({ error: error.message });
