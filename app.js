@@ -1,47 +1,5 @@
-// const express = require("express");
-// require("dotenv").config();
-// const { connect } = require("mongoose");
-// const morgan = require("morgan");
-// const cors = require("cors");
-// const app = express();
-// app.use(morgan("dev"));
-// const whitelist = ["http://localhost:3000"];
-// const corsOptions = {
-//   origin: function (origin, callback) {
-//     if (!origin || whitelist.indexOf(origin) !== -1) {
-//       callback(null, true);
-//     } else {
-//       callback(new Error("Not allowed by CORS"));
-//     }
-//   },
-//   credentials: true,
-// };
-// app.use(cors(corsOptions));
-// // routes
-// app.use(express.json());
-// // app.use("/api/auth", require("./routes/user-routes"));
-// // app.use("/api/offres", require("./routes/offre-routes"));
-// // app.use("/api/applications", require("./routes/application-routes"));
-// // app.use("/api/conges", require("./routes/conge-routes"));
-// // app.use("/api/contract", require("./routes/contract-routes"));
-// // app.use("/api/settings", require("./routes/setting-routes"));
-// // app.use("/api/ruptures", require("./routes/rupture-routes"));
-// // app.use("/api/file-sent", require("./routes/fileSent-routes"));
-
-// app.use("/api/test", async (req, res) => {
-//   res.json(`VBL backend is working perfectly ...`);
-// });
-
-// const port = process.env.PORT || 5000;
-
-// app.listen(port, () => {
-//   console.log(`App running on port ${port}`);
-//   // connect to the db
-//   connect(process.env.DB_PATH, (err, db) => {
-//     if (err) throw err;
-//     console.log(`connected to the mongo database`);
-//   });
-// });
+const multer = require("multer");
+const upload = multer({ dest: "uploads/" }); // Change this to your preferred storage service
 const express = require("express");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
@@ -82,10 +40,33 @@ const EmployeeSchema = new mongoose.Schema({
   lastName: { type: String, required: true },
   phoneNumber: { type: String, required: true },
   company: { type: mongoose.Types.ObjectId, ref: "Company" },
+  bankAccount: {
+    accountNumber: { type: String, required: true },
+    routingNumber: { type: String, required: true },
+    bankName: { type: String, required: true },
+    accountName: { type: String, required: true },
+  },
   salary: { type: Number, required: true },
   leaves: [{ type: mongoose.Types.ObjectId, ref: "Leave" }],
   benefits: [{ type: mongoose.Types.ObjectId, ref: "Benefit" }],
   user: { type: mongoose.Types.ObjectId, ref: "User" },
+  documents: [
+    {
+      name: { type: String, required: true },
+      path: { type: String, required: true },
+    },
+  ],
+});
+const PhysicalAptitudeSchema = new mongoose.Schema({
+  employee: { type: mongoose.Types.ObjectId, ref: "Employee" },
+  medicalHistory: { type: String, required: true },
+  height: { type: Number, required: true },
+  weight: { type: Number, required: true },
+  bloodPressure: { type: String, required: true },
+  heartRate: { type: Number, required: true },
+  date: { type: Date, required: true },
+  doctorName: { type: String, required: true },
+  hospitalName: { type: String, required: true },
 });
 
 const JobSchema = new mongoose.Schema({
@@ -136,7 +117,36 @@ const ApplicantSchema = new mongoose.Schema({
   password: { type: String, required: true },
   phoneNumber: { type: String },
 });
+const SalaryAdvanceSchema = new mongoose.Schema({
+  employee: { type: mongoose.Types.ObjectId, ref: "Employee" },
+  amount: { type: Number, required: true },
+  reason: { type: String, required: true },
+  status: { type: String, required: true, default: "pending" },
+  date: { type: Date, required: true, default: Date.now },
+});
+const SalaryAdvance = mongoose.model("SalaryAdvance", SalaryAdvanceSchema);
+app.post("/employees/:employeeId/salary-advance", async (req, res) => {
+  try {
+    const { amount, reason } = req.body;
 
+    const salaryAdvance = new SalaryAdvance({
+      employee: req.params.employeeId,
+      amount,
+      reason,
+    });
+
+    await salaryAdvance.save();
+
+    res.status(200).json({ message: "Salary advance request submitted." });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
+const PhysicalAptitude = mongoose.model(
+  "PhysicalAptitude",
+  PhysicalAptitudeSchema
+);
 const User = mongoose.model("User", UserSchema);
 const Applicant = mongoose.model("Applicant", ApplicantSchema);
 const Company = mongoose.model("Company", CompanySchema);
@@ -147,7 +157,56 @@ const Leave = mongoose.model("Leave", LeaveSchema);
 const Benefit = mongoose.model("Benefit", BenefitSchema);
 const Task = mongoose.model("Task", TaskSchema);
 debugger;
+app.post("/employees/:employeeId/physical-aptitude", async (req, res) => {
+  try {
+    const { medicalHistory, height, weight, bloodPressure, heartRate } =
+      req.body;
 
+    const physicalAptitude = new PhysicalAptitude({
+      employee: req.params.employeeId,
+      medicalHistory,
+      height,
+      weight,
+      bloodPressure,
+      heartRate,
+    });
+
+    await physicalAptitude.save();
+
+    res.status(201).send(physicalAptitude);
+  } catch (error) {
+    res.status(500).send(error.message);
+  }
+});
+app.post(
+  "/employees/:employeeId/documents",
+  upload.single("document"),
+  async (req, res) => {
+    try {
+      const { originalname, buffer } = req.file;
+      const filename = `${req.params.employeeId}-${originalname}`;
+
+      // Save the file to your storage service
+      const storageUrl = await saveFileToStorage(buffer, filename);
+
+      // Update the Employee document to include the new document
+      const employee = await Employee.findById(req.params.employeeId);
+      employee.documents.push({ name: originalname, url: storageUrl });
+      await employee.save();
+
+      res.status(200).json({ message: "Document added successfully" });
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ error: err.message });
+    }
+  }
+);
+
+async function saveFileToStorage(buffer, filename) {
+  // Replace this function with the code to save the file to your preferred storage service
+  console.log(`Saving file ${filename} to storage`);
+  return `https://example.com/${filename}`; // Return the URL of the saved file
+}
 app.post("/signup/applicant", async (req, res) => {
   try {
     // Destructure required fields from request body
@@ -354,6 +413,30 @@ app.post("/employee/benefit", async (req, res) => {
     res.send(benefit);
   } catch (error) {
     return res.status(422).send(error.message);
+  }
+});
+app.put("/employees/:employeeId/bank-account", async (req, res) => {
+  try {
+    const { accountNumber, routingNumber, bankName, accountName } = req.body;
+
+    const employee = await Employee.findById(req.params.employeeId);
+    if (!employee) {
+      return res.status(404).send("Employee not found");
+    }
+
+    employee.bankAccount = {
+      accountNumber,
+      routingNumber,
+      bankName,
+      accountName,
+    };
+
+    await employee.save();
+
+    res.status(200).send("Bank account updated successfully");
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Server error");
   }
 });
 
