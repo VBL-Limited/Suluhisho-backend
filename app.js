@@ -46,6 +46,7 @@ const EmployeeSchema = new mongoose.Schema({
     bankName: { type: String, required: true },
     accountName: { type: String, required: true },
   },
+  contracts: [{ type: mongoose.Types.ObjectId, ref: "Contract" }],
   salary: { type: Number, required: true },
   leaves: [{ type: mongoose.Types.ObjectId, ref: "Leave" }],
   benefits: [{ type: mongoose.Types.ObjectId, ref: "Benefit" }],
@@ -68,6 +69,14 @@ const PhysicalAptitudeSchema = new mongoose.Schema({
   doctorName: { type: String, required: true },
   hospitalName: { type: String, required: true },
 });
+const ContractSchema = new mongoose.Schema({
+  employee: { type: mongoose.Types.ObjectId, ref: "Employee" },
+  contractNumber: { type: String, required: true },
+  startDate: { type: Date, required: true },
+  endDate: { type: Date, required: true },
+  hourlyRate: { type: Number, required: true },
+  totalHours: { type: Number, required: true },
+});
 
 const JobSchema = new mongoose.Schema({
   title: { type: String, required: true },
@@ -75,6 +84,16 @@ const JobSchema = new mongoose.Schema({
   company: { type: mongoose.Types.ObjectId, ref: "Company" },
   status: { type: String, required: true },
   applications: [{ type: mongoose.Types.ObjectId, ref: "JobApplication" }],
+  salary: { type: Number },
+  location: { type: String },
+  responsibilities: [{ type: String }],
+  qualifications: [{ type: String }],
+  deadline: { type: Date },
+  created_at: { type: Date, default: Date.now },
+  updated_at: { type: Date, default: Date.now },
+  posted_by: { type: mongoose.Types.ObjectId, ref: "User" },
+  is_remote: { type: Boolean, default: false },
+  is_featured: { type: Boolean, default: false },
 });
 
 const JobApplicationSchema = new mongoose.Schema({
@@ -147,6 +166,7 @@ const PhysicalAptitude = mongoose.model(
   "PhysicalAptitude",
   PhysicalAptitudeSchema
 );
+const Contract = mongoose.model("Contract", ContractSchema);
 const User = mongoose.model("User", UserSchema);
 const Applicant = mongoose.model("Applicant", ApplicantSchema);
 const Company = mongoose.model("Company", CompanySchema);
@@ -319,26 +339,61 @@ app.post("/login", async (req, res) => {
     return res.status(422).send(error.message);
   }
 });
-
-app.post("/job", async (req, res) => {
+app.get("/companies/:companyId", async (req, res) => {
   try {
-    const { title, description, companyId } = req.body;
-    const company = await Company.findById(companyId);
+    const company = await Company.findById(req.params.companyId)
+      .populate("jobs")
+      .populate("employees")
+      .populate("admin");
     if (!company) {
-      throw new Error("Company not found");
+      return res.status(404).json({ message: "Company not found" });
     }
-    const job = new Job({
-      title: title,
-      description: description,
-      company: company._id,
-      status: "open",
-    });
-    company.jobs.push(job._id);
-    await job.save();
-    await company.save();
-    res.send(job);
+    res.json(company);
   } catch (error) {
-    return res.status(422).send(error.message);
+    console.error(error);
+    res.status(500).json({ message: "Server error" });
+  }
+});
+
+app.post("/jobs", async (req, res) => {
+  try {
+    const {
+      title,
+      description,
+      company,
+      status,
+      applications,
+      salary,
+      location,
+      responsibilities,
+      qualifications,
+      deadline,
+      is_remote,
+      is_featured,
+      posted_by,
+    } = req.body;
+
+    const job = new Job({
+      title,
+      description,
+      company,
+      status,
+      applications,
+      salary,
+      location,
+      responsibilities,
+      qualifications,
+      deadline,
+      is_remote,
+      is_featured,
+      posted_by,
+    });
+
+    const savedJob = await job.save();
+    res.json(savedJob);
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Server Error");
   }
 });
 
@@ -415,6 +470,16 @@ app.post("/employee/benefit", async (req, res) => {
     return res.status(422).send(error.message);
   }
 });
+app.get("/companies", async (req, res) => {
+  try {
+    const companies = await Company.find().populate("admin").exec();
+    res.json(companies);
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Server error");
+  }
+});
+
 app.put("/employees/:employeeId/bank-account", async (req, res) => {
   try {
     const { accountNumber, routingNumber, bankName, accountName } = req.body;
@@ -469,6 +534,50 @@ app.post("/employee/task", async (req, res) => {
     return res.status(422).send(error.message);
   }
 });
+app.post("/employees", async (req, res) => {
+  const {
+    firstName,
+    lastName,
+    phoneNumber,
+    bankAccount,
+    salary,
+    company,
+    documents,
+  } = req.body;
+  const { accountNumber, routingNumber, bankName, accountName } = bankAccount;
+
+  const employee = new Employee({
+    firstName,
+    lastName,
+    phoneNumber,
+    bankAccount: { accountNumber, routingNumber, bankName, accountName },
+    salary,
+    company,
+    documents,
+  });
+
+  try {
+    const savedEmployee = await employee.save();
+
+    const { contractNumber, startDate, endDate, hourlyRate, totalHours } =
+      req.body.contract;
+    const contract = new Contract({
+      employee: savedEmployee._id,
+      contractNumber,
+      startDate,
+      endDate,
+      hourlyRate,
+      totalHours,
+    });
+    await contract.save();
+
+    res.status(201).json({ employee: savedEmployee, contract });
+  } catch (error) {
+    console.error(error);
+    res.status(400).json({ error: "Could not create employee" });
+  }
+});
+
 const port = process.env.PORT || 3000;
 mongoose.connect(process.env.DB_PATH, {
   useNewUrlParser: true,
