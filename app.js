@@ -401,6 +401,28 @@ app.post("/jobs", async (req, res) => {
     res.status(500).send("Server Error");
   }
 });
+app.post("/companies/:companyId/jobs", async (req, res) => {
+  try {
+    const company = await Company.findById(req.params.companyId);
+    if (!company) {
+      return res.status(404).send({ error: "Company not found" });
+    }
+    console.log("USERDI", req.posted_by);
+
+    const job = new Job({
+      ...req.body,
+      company: req.params.companyId,
+      posted_by: req.posted_by,
+    });
+    await job.save();
+    company.jobs.push(job._id);
+    await company.save();
+    res.status(201).send(job);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send({ error: "Internal server error" });
+  }
+});
 
 app.post("/apply", async (req, res) => {
   try {
