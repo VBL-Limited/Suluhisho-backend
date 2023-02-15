@@ -407,7 +407,6 @@ app.post("/companies/:companyId/jobs", async (req, res) => {
     if (!company) {
       return res.status(404).send({ error: "Company not found" });
     }
-    console.log("USERDI", req.posted_by);
 
     const job = new Job({
       ...req.body,
@@ -424,6 +423,15 @@ app.post("/companies/:companyId/jobs", async (req, res) => {
   }
 });
 
+app.get("/applicants", async (req, res) => {
+  try {
+    const applicants = await Applicant.find();
+    res.json(applicants);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Server Error" });
+  }
+});
 app.post("/apply", async (req, res) => {
   try {
     const { jobId, applicantId, resume, coverLetter } = req.body;
@@ -431,10 +439,13 @@ app.post("/apply", async (req, res) => {
     if (!job) {
       throw new Error("Job not found");
     }
+    console.log("ID", applicantId);
     const applicant = await Applicant.findById(applicantId);
     if (!applicant) {
       throw new Error("Applicant not found");
     }
+    console.log("APPLICANT BODY", applicant);
+
     const application = new JobApplication({
       job: job._id,
       applicant: applicant._id,
