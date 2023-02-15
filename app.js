@@ -74,8 +74,13 @@ const ContractSchema = new mongoose.Schema({
   contractNumber: { type: String, required: true },
   startDate: { type: Date, required: true },
   endDate: { type: Date, required: true },
+  duree: { type: String, required: true },
+  typeContrat: { type: String, required: true },
+  salaireBase: { type: Number, required: true },
   hourlyRate: { type: Number, required: true },
   totalHours: { type: Number, required: true },
+  transport: { type: Number, required: true },
+  nbreEnfant: { type: Number, required: true },
 });
 
 const JobSchema = new mongoose.Schema({
@@ -564,6 +569,10 @@ app.post("/employees", async (req, res) => {
     const contract = new Contract({
       employee: savedEmployee._id,
       contractNumber,
+      transport,
+      salaireBase,
+      duree,
+      nbreEnfant,
       startDate,
       endDate,
       hourlyRate,
